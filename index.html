@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Client Assessment Form</title>
+  <meta name="description" content="A thoughtful training intake form for building a realistic, sustainable coaching plan." />
+  <style>
+    :root { --ink:#15263a; --muted:#66768a; --line:#dce5ed; --wash:#f4f8fb; --blue:#2f76a8; --blue-dark:#1f5c87; --mint:#dff2ec; --shadow:0 20px 60px rgba(21,38,58,.10); }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:linear-gradient(180deg,#edf5f8 0,#f7fafc 52%,#fff 100%); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .shell { width:min(940px, calc(100% - 32px)); margin:0 auto; padding:34px 0 64px; }
+    .hero { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:24px; }
+    .eyebrow { color:var(--blue); font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; margin:0 0 10px; }
+    h1 { margin:0; font-size:clamp(30px,5vw,48px); letter-spacing:-.045em; line-height:1.02; }
+    .intro { color:var(--muted); font-size:16px; line-height:1.6; max-width:635px; margin:14px 0 0; }
+    .save-status { color:var(--muted); font-size:12px; white-space:nowrap; padding-bottom:4px; }
+    .progress-wrap { background:#fff; border:1px solid var(--line); border-radius:18px; padding:16px 18px 14px; box-shadow:0 8px 26px rgba(21,38,58,.05); margin-bottom:18px; }
+    .progress-line { display:flex; align-items:center; justify-content:space-between; gap:14px; font-size:13px; font-weight:750; }
+    .progress-track { height:8px; background:#e8eff4; border-radius:99px; overflow:hidden; margin-top:10px; }
+    .progress-bar { height:100%; width:0%; background:linear-gradient(90deg,var(--blue),#5db3a1); border-radius:99px; transition:width .25s ease; }
+    form { background:#fff; border:1px solid var(--line); border-radius:24px; box-shadow:var(--shadow); overflow:hidden; }
+    .section { padding:30px clamp(20px,5vw,50px) 12px; border-bottom:1px solid #edf1f4; }
+    .section:last-of-type { border-bottom:0; }
+    .section-head { display:flex; align-items:flex-start; gap:14px; margin-bottom:22px; }
+    .section-num { display:grid; place-items:center; width:34px; height:34px; border-radius:12px; background:var(--mint); color:#2a6f62; font-size:13px; font-weight:850; flex:0 0 auto; }
+    h2 { margin:1px 0 5px; font-size:22px; letter-spacing:-.025em; }
+    .section-head p { margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+    .question { margin:0 0 21px; }
+    label, legend { display:block; font-size:14px; font-weight:760; line-height:1.45; margin-bottom:8px; }
+    label span { color:var(--blue); }
+    textarea, input[type="text"], input[type="number"], input[type="date"], select { width:100%; border:1px solid var(--line); border-radius:12px; background:#fff; padding:13px 14px; font:inherit; color:var(--ink); outline:none; transition:border .2s, box-shadow .2s; }
+    textarea { min-height:88px; resize:vertical; line-height:1.5; }
+    textarea.tall { min-height:125px; }
+    textarea:focus, input:focus, select:focus { border-color:#75acd0; box-shadow:0 0 0 4px rgba(47,118,168,.12); }
+    ::placeholder { color:#a2afbb; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+    .choice-grid { display:flex; flex-wrap:wrap; gap:10px; }
+    .choice { position:relative; }
+    .choice input { position:absolute; opacity:0; pointer-events:none; }
+    .choice label { margin:0; padding:11px 14px; border:1px solid var(--line); border-radius:12px; color:#526475; background:#fff; cursor:pointer; font-size:13px; font-weight:700; transition:.2s; }
+    .choice input:checked + label { background:#edf6fb; border-color:#75acd0; color:var(--blue-dark); box-shadow:0 0 0 3px rgba(47,118,168,.08); }
+    .checkline { display:flex; flex-wrap:wrap; gap:10px 14px; }
+    .check { display:flex; gap:8px; align-items:center; color:#526475; font-size:14px; }
+    .check input { width:17px; height:17px; accent-color:var(--blue); }
+    .footer { padding:22px clamp(20px,5vw,50px) 30px; background:#fbfcfd; border-top:1px solid #edf1f4; }
+    .footer-note { color:var(--muted); font-size:13px; line-height:1.5; margin:0 0 18px; }
+    .actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; }
+    .button-row { display:flex; gap:10px; flex-wrap:wrap; }
+    button { border:0; border-radius:12px; padding:13px 18px; font:inherit; font-size:14px; font-weight:800; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s; }
+    button:hover { transform:translateY(-1px); }
+    .primary { color:#fff; background:var(--blue); box-shadow:0 8px 16px rgba(47,118,168,.22); }
+    .primary:hover { background:var(--blue-dark); }
+    .secondary { color:var(--blue-dark); background:#eaf3f8; }
+    .ghost { color:var(--muted); background:transparent; border:1px solid var(--line); }
+    .success { display:none; text-align:center; padding:52px 26px 62px; }
+    .success.show { display:block; }
+    .success-mark { width:58px; height:58px; margin:0 auto 16px; display:grid; place-items:center; border-radius:20px; background:var(--mint); color:#2a806e; font-size:27px; font-weight:900; }
+    .success h2 { font-size:29px; margin-bottom:10px; }
+    .success p { max-width:510px; margin:0 auto 22px; color:var(--muted); line-height:1.6; }
+    .hidden { display:none; }
+    /* Barlock-inspired visual language: athletic, all-caps, block-built, high contrast. */
+    :root { --ink:#151515; --muted:#6d6a63; --line:#d7d1c8; --wash:#f1ede6; --blue:#151515; --blue-dark:#000; --mint:#c4162a; --shadow:0 14px 0 rgba(21,21,21,.08); }
+    body { color:var(--ink); background:#e8e1d7; }
+    .shell { padding-top:38px; }
+    .hero { align-items:flex-start; background:#151515; color:#f8f3eb; padding:28px 30px 30px; border:3px solid #151515; box-shadow:10px 10px 0 #c4162a; margin-bottom:30px; }
+    .eyebrow { color:#c4162a; letter-spacing:.2em; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size:14px; }
+    h1 { text-transform:uppercase; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; letter-spacing:.025em; font-weight:900; }
+    .intro { color:#d8d0c6; max-width:670px; }
+    .save-status { color:#c4162a; font-weight:750; text-transform:uppercase; letter-spacing:.04em; }
+    .progress-wrap { border:2px solid #151515; border-radius:0; box-shadow:5px 5px 0 #cfc6bb; background:#f8f3eb; }
+    .progress-track { background:#d7d1c8; border-radius:0; }
+    .progress-bar { background:#151515; border-radius:0; }
+    form { border:3px solid #151515; border-radius:0; box-shadow:10px 10px 0 #cfc6bb; }
+    .section { background:#f8f3eb; padding-top:32px; padding-bottom:17px; }
+    .section-head { border-bottom:2px solid #151515; padding-bottom:16px; }
+    .section-num { width:39px; height:39px; border-radius:0; background:#151515; color:#c4162a; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size:16px; }
+    h2 { text-transform:uppercase; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; letter-spacing:.035em; font-size:25px; }
+    .section-head p { color:#6d6a63; }
+    label, legend { text-transform:uppercase; letter-spacing:.025em; }
+    textarea, input[type="text"], input[type="number"], input[type="date"], select { border:2px solid #bbb4aa; border-radius:0; background:#fffdf9; }
+    textarea:focus, input:focus, select:focus { border-color:#151515; box-shadow:4px 4px 0 #c4162a; }
+    .choice label { border:2px solid #bbb4aa; border-radius:0; text-transform:uppercase; }
+    .choice input:checked + label { background:#c4162a; border-color:#151515; color:#fff; box-shadow:3px 3px 0 #151515; }
+    .check input { accent-color:#151515; }
+    .footer { background:#151515; color:#f8f3eb; border-top:3px solid #151515; }
+    .footer-note { color:#d8d0c6; }
+    button { border-radius:0; text-transform:uppercase; letter-spacing:.04em; }
+    .primary { color:#fff; background:#c4162a; box-shadow:5px 5px 0 #fff; }
+    .primary:hover { background:#e02a3e; }
+    .secondary { color:#151515; background:#f8f3eb; }
+    .ghost { color:#f8f3eb; border-color:#77736d; }
+    .success { background:#f8f3eb; border:3px solid #151515; box-shadow:10px 10px 0 #cfc6bb; }
+    .success-mark { border-radius:0; background:#c4162a; color:#fff; }
+    .success h2 { text-transform:uppercase; font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; }
+    /* Black canvas with crimson hierarchy. */
+    body { background:#000; color:#f7f2ec; }
+    .progress-wrap { background:#111; border-color:#333; box-shadow:5px 5px 0 #c4162a; }
+    .progress-line { color:#f7f2ec; }
+    .progress-track { background:#292929; }
+    form { background:#111; border-color:#333; box-shadow:10px 10px 0 #c4162a; }
+    .section { background:#111; border-color:#292929; }
+    .section-head { border-color:#c4162a; }
+    .section-head p, .footer-note { color:#a9a29a; }
+    label, legend { color:#f7f2ec; }
+    textarea, input[type="text"], input[type="number"], input[type="date"], select { background:#1b1b1b; border-color:#4a4a4a; color:#f7f2ec; }
+    ::placeholder { color:#817b75; }
+    .choice label { background:#1b1b1b; border-color:#4a4a4a; color:#d2cbc2; }
+    .choice input:checked + label { background:#c4162a; border-color:#fff; color:#fff; }
+    .footer { background:#000; border-color:#333; }
+    .success { background:#111; border-color:#333; box-shadow:10px 10px 0 #c4162a; }
+    .success p { color:#a9a29a; }
+    .summary-box { max-width:680px; margin:22px auto; padding:18px; background:#1b1b1b; border:1px solid #c4162a; color:#f7f2ec; text-align:left; white-space:pre-wrap; line-height:1.55; }
+    button:disabled { opacity:.6; cursor:wait; transform:none; }
+    @media (max-width:650px) { .shell{width:min(100% - 18px,940px);padding-top:22px}.hero{display:block}.save-status{margin-top:14px}.two-col{grid-template-columns:1fr}.section{padding-left:18px;padding-right:18px}.footer{padding-left:18px;padding-right:18px}.actions{align-items:stretch}.button-row{width:100%}.button-row button{flex:1} }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Barlock // Training Intake</p>
+        <h1>Client Assessment Form</h1>
+        <p class="intro">A few thoughtful questions so your coach can design a plan that fits your goals, schedule, preferences, and real life.</p>
+      </div>
+      <div class="save-status" id="saveStatus">Draft saved locally</div>
+    </header>
+    <div class="progress-wrap" aria-live="polite">
+      <div class="progress-line"><span id="progressLabel">0% complete</span><span id="answeredLabel">0 of 22 answered</span></div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+    <form id="assessmentForm">
+      <section class="section"><div class="section-head"><div class="section-num">01</div><div><h2>Training background</h2><p>Start with where you are and what you want to build.</p></div></div>
+        <div class="two-col"><div class="question"><label for="username">Username <span>*</span></label><input id="username" name="username" type="text" required autocomplete="username" placeholder="Choose a username"></div><div class="question"><label for="coach_username">Coach username</label><input id="coach_username" name="coach_username" type="text" readonly placeholder="Filled from your coach link"><small id="coachUsernameNote" style="display:block;color:#a9a29a;margin-top:7px">This is filled automatically from the link you received.</small></div></div>
+        <div class="question"><label for="q1">What is your main goal right now? <span>*</span></label><textarea id="q1" name="main_goal" required placeholder="For example: build strength, feel fitter, prepare for an event…"></textarea></div>
+        <div class="question"><label for="q2">How long have you trained consistently?</label><input id="q2" name="training_history" type="text" placeholder="e.g. 6 months, 3 years, on and off"></div>
+        <div class="question"><label for="q3">What types of training have you done before?</label><textarea id="q3" name="previous_training" placeholder=""></textarea></div>
+        <div class="question"><label for="q4">How many days per week can you realistically train?</label><input id="q4" name="days_per_week" type="text" placeholder="e.g. 3 days"></div>
+        <div class="question"><label>Do you train at a gym, at home, or both?</label><div class="choice-grid"><div class="choice"><input id="gym" name="training_location" type="radio" value="Gym"><label for="gym">Gym</label></div><div class="choice"><input id="home" name="training_location" type="radio" value="Home"><label for="home">Home</label></div><div class="choice"><input id="both" name="training_location" type="radio" value="Both"><label for="both">Both</label></div></div></div>
+      </section>
+      <section class="section"><div class="section-head"><div class="section-num">02</div><div><h2>Health and limitations</h2><p>Share anything that helps your coach keep the plan appropriate for you.</p></div></div>
+        <div class="question"><label for="q6">Do you have any injuries, pain, medical conditions, or movement limitations your coach should know about?</label><textarea class="tall" id="q6" name="health_limitations"></textarea></div>
+        <div class="question"><label for="q7">Are there exercises that cause pain or discomfort?</label><textarea id="q7" name="painful_exercises"></textarea></div>
+        <div class="question"><label>Have you been cleared to exercise by a healthcare professional if needed?</label><div class="choice-grid"><div class="choice"><input id="clear-yes" name="cleared" type="radio" value="Yes"><label for="clear-yes">Yes</label></div><div class="choice"><input id="clear-no" name="cleared" type="radio" value="No"><label for="clear-no">No</label></div><div class="choice"><input id="clear-na" name="cleared" type="radio" value="Not applicable"><label for="clear-na">Not applicable</label></div></div></div>
+        <div class="question"><label for="q9">Are you currently taking any medication that may affect training or recovery?</label><textarea id="q9" name="medication"></textarea></div>
+      </section>
+      <section class="section"><div class="section-head"><div class="section-num">03</div><div><h2>Lifestyle and recovery</h2><p>Training works best when it fits the rest of your week.</p></div></div>
+        <div class="two-col"><div class="question"><label for="q10">Usual sleep each night</label><input id="q10" name="sleep" type="text" placeholder="e.g. 7–8 hours"></div><div class="question"><label>Daily stress</label><div class="choice-grid"><div class="choice"><input id="stress-low" name="stress" type="radio" value="Low"><label for="stress-low">Low</label></div><div class="choice"><input id="stress-med" name="stress" type="radio" value="Moderate"><label for="stress-med">Moderate</label></div><div class="choice"><input id="stress-high" name="stress" type="radio" value="High"><label for="stress-high">High</label></div></div></div></div>
+        <div class="question"><label>Is your job mostly seated, active, or physically demanding?</label><div class="choice-grid"><div class="choice"><input id="job-seat" name="job" type="radio" value="Seated"><label for="job-seat">Seated</label></div><div class="choice"><input id="job-active" name="job" type="radio" value="Active"><label for="job-active">Active</label></div><div class="choice"><input id="job-physical" name="job" type="radio" value="Physically demanding"><label for="job-physical">Physically demanding</label></div></div></div>
+        <div class="question"><label for="q13">What does a typical day of eating look like?</label><textarea class="tall" id="q13" name="eating"></textarea></div>
+      </section>
+      <section class="section"><div class="section-head"><div class="section-num">04</div><div><h2>Preferences</h2><p>Tell your coach what makes movement enjoyable and sustainable.</p></div></div>
+        <div class="question"><label for="q14">What exercises do you enjoy?</label><textarea id="q14" name="enjoyed_exercises"></textarea></div>
+        <div class="question"><label for="q15">What exercises do you dislike or want to avoid?</label><textarea id="q15" name="avoided_exercises"></textarea></div>
+        <div class="question"><label>Do you prefer strength, muscle-building, conditioning, mobility, or a mix?</label><div class="choice-grid"><div class="choice"><input id="pref-strength" name="preference" type="radio" value="Strength"><label for="pref-strength">Strength</label></div><div class="choice"><input id="pref-muscle" name="preference" type="radio" value="Muscle-building"><label for="pref-muscle">Muscle-building</label></div><div class="choice"><input id="pref-conditioning" name="preference" type="radio" value="Conditioning"><label for="pref-conditioning">Conditioning</label></div><div class="choice"><input id="pref-mobility" name="preference" type="radio" value="Mobility"><label for="pref-mobility">Mobility</label></div><div class="choice"><input id="pref-mix" name="preference" type="radio" value="A mix"><label for="pref-mix">A mix</label></div></div></div>
+        <div class="question"><label for="q17">Do you have any equipment limitations?</label><textarea id="q17" name="equipment"></textarea></div>
+      </section>
+      <section class="section"><div class="section-head"><div class="section-num">05</div><div><h2>Baseline and goals</h2><p>Make success measurable in a way that matters to you.</p></div></div>
+        <div class="two-col"><div class="question"><label for="q18">Current bodyweight, if comfortable sharing</label><input id="q18" name="bodyweight" type="text" placeholder="Optional"></div><div class="question"><label for="q20">Target date or event</label><input id="q20" name="target_date" type="text" placeholder="Optional"></div></div>
+        <div class="question"><label for="q19">What outcome would make this program successful for you? <span>*</span></label><textarea class="tall" id="q19" name="success_outcome" required></textarea></div>
+        <div class="question"><label for="q21">What has made it difficult to stay consistent in the past?</label><textarea class="tall" id="q21" name="consistency_barriers"></textarea></div>
+      </section>
+      <section class="section"><div class="section-head"><div class="section-num">06</div><div><h2>Coach notes</h2><p>Anything else that will help make this plan realistic and sustainable?</p></div></div>
+        <div class="question"><label for="q22">What should your coach know?</label><textarea class="tall" id="q22" name="coach_notes"></textarea></div>
+      </section>
+      <div class="footer"><p class="footer-note">Your answers are kept in this browser while you complete the form. When you submit, you can download or copy a response summary to send to your coach.</p><div class="actions"><div class="button-row"><button type="button" class="ghost" id="clearBtn">Clear draft</button><button type="button" class="secondary" id="copyBtn">Copy response</button><button type="button" class="secondary" id="downloadBtn">Download response</button></div><button class="primary" type="submit">Complete assessment →</button></div></div>
+    </form>
+    <div class="success" id="success"><div class="success-mark">✓</div><h2>Assessment complete</h2><p id="successText">Your answers were saved successfully.</p><div class="button-row" style="justify-content:center"><button class="primary" id="successCopy" type="button">Copy response</button><button class="secondary" id="successDownload" type="button">Download response</button><button class="ghost" id="editBtn" type="button">Edit answers</button></div></div>
+  </main>
+  <script>
+    const form=document.getElementById('assessmentForm'), storageKey='client-assessment-draft-v1', API_BASE='https://vishnu.taile648e2.ts.net';
+    const saveStatus=document.getElementById('saveStatus');
+    let generatedSummary='';
+    const allFields=()=>[...form.querySelectorAll('input, textarea, select')];
+    function readValues(){const data={}; allFields().forEach(el=>{if((el.type==='radio'||el.type==='checkbox')&&!el.checked)return; if(el.name)data[el.name]=el.value});return data}
+    function restore(){try{const d=JSON.parse(localStorage.getItem(storageKey)||'{}');allFields().forEach(el=>{if(!el.name||d[el.name]===undefined)return;if(el.type==='radio'||el.type==='checkbox')el.checked=el.value===d[el.name];else el.value=d[el.name]});}catch(e){}}
+    function save(){localStorage.setItem(storageKey,JSON.stringify(readValues()));saveStatus.textContent='Draft saved locally';updateProgress()}
+    function updateProgress(){const fields=[...form.querySelectorAll('textarea, input:not([type=hidden])')];const names=[...new Set(fields.map(e=>e.name).filter(Boolean))];const d=readValues();const answered=names.filter(n=>String(d[n]||'').trim()).length;const pct=Math.round(answered/names.length*100);document.getElementById('progressLabel').textContent=pct+'% complete';document.getElementById('answeredLabel').textContent=answered+' of '+names.length+' answered';document.getElementById('progressBar').style.width=pct+'%'}
+    function responseText(){const d=readValues();const labels={username:'Username',coach_username:'Coach username',main_goal:'Main goal',training_history:'Training history',previous_training:'Previous training',days_per_week:'Days per week',training_location:'Training location',health_limitations:'Health and limitations',painful_exercises:'Painful or uncomfortable exercises',cleared:'Exercise clearance',medication:'Medication affecting training or recovery',sleep:'Usual sleep',stress:'Daily stress',job:'Job activity',eating:'Typical day of eating',enjoyed_exercises:'Enjoyed exercises',avoided_exercises:'Exercises to avoid',preference:'Training preference',equipment:'Equipment limitations',bodyweight:'Current bodyweight',target_date:'Target date or event',success_outcome:'Successful outcome',consistency_barriers:'Past consistency barriers',coach_notes:'Coach notes'};return 'CLIENT ASSESSMENT FORM\n\n'+Object.entries(labels).map(([k,v])=>v+':\n'+(d[k]||'Not answered')).join('\n\n')}
+    async function postJson(path,payload){const res=await fetch(API_BASE+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const body=await res.json().catch(()=>({}));if(!res.ok)throw new Error(body.detail?JSON.stringify(body.detail):'Server returned '+res.status);return body}
+    async function copyResponse(){try{await navigator.clipboard.writeText(responseText());saveStatus.textContent='Response copied';}catch(e){alert('Copy is unavailable here. Use Download response instead.')}}
+    function downloadResponse(){const blob=new Blob([responseText()],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='client-assessment-response.txt';a.click();URL.revokeObjectURL(a.href)}
+    form.addEventListener('input',save);form.addEventListener('change',save);document.getElementById('copyBtn').onclick=copyResponse;document.getElementById('downloadBtn').onclick=downloadResponse;document.getElementById('successCopy').onclick=copyResponse;document.getElementById('successDownload').onclick=downloadResponse;
+    document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear the saved draft?')){localStorage.removeItem(storageKey);form.reset();updateProgress();saveStatus.textContent='Draft cleared'}};
+    form.addEventListener('submit',async e=>{e.preventDefault();if(!form.reportValidity())return;const submitBtn=form.querySelector('button[type="submit"]');const data=readValues();submitBtn.disabled=true;submitBtn.textContent='Submitting…';saveStatus.textContent='Sending to home server…';try{const assessment=await postJson('/assessments',{client_name:data.username,data});const assessmentId=assessment.id??assessment.assessment_id??null;await postJson('/ai/assessment-summary',{client_name:data.username,data,assessment_id:assessmentId});document.getElementById('successText').textContent='Your answers were saved successfully.';form.classList.add('hidden');document.getElementById('success').classList.add('show');saveStatus.textContent='Submitted successfully';window.scrollTo({top:0,behavior:'smooth'})}catch(err){saveStatus.textContent='Submission failed';alert('We could not submit your assessment. '+err.message)}finally{submitBtn.disabled=false;submitBtn.textContent='Complete assessment →'}});document.getElementById('editBtn').onclick=()=>{document.getElementById('success').classList.remove('show');form.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})};restore();const coachFromUrl=(new URLSearchParams(window.location.search).get('coach_username')||new URLSearchParams(window.location.search).get('coach')||'').trim();if(coachFromUrl){document.getElementById('coach_username').value=coachFromUrl;document.getElementById('coachUsernameNote').textContent='Coach link recognized';}updateProgress();
+  </script>
+</body>
+</html>
